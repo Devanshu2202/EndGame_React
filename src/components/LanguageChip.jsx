@@ -3,7 +3,6 @@ const LanguageChips = ({ languages, wrongWordCount }) => {
     <div className="flex flex-wrap justify-center gap-2 max-w-md mx-auto mb-8">
       {languages.map((lang, index) => {
         const isDisabled = index < wrongWordCount;
-        console.log("isDisabled", isDisabled);
 
         return (
           <span

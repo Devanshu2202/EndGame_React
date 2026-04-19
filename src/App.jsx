@@ -8,7 +8,6 @@ import Confetti from "react-confetti";
 function App() {
   const [currentWord, setCurrentWord] = useState("PYTHON");
 
-  console.log("currentWord", currentWord);
   const [word, setWord] = useState([]);
 
   const wrongWordCount = word.filter(
@@ -19,15 +18,9 @@ function App() {
     .split("")
     .every((letter) => word.includes(letter));
 
-  console.log("isGameWon", isGameWon);
-
   const isGameLost = wrongWordCount >= 9;
 
-  console.log("isGameLost", isGameLost);
-
   const isGameOver = isGameWon || isGameLost;
-
-  console.log("isGameOver", isGameOver);
 
   function handleWord(letter) {
     setWord((prev) => (prev.includes(letter) ? prev : [...prev, letter]));
