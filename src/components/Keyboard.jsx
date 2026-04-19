@@ -1,14 +1,34 @@
-function Keyboard({ handleGuess }) {
-  const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+const Keyboard = ({ currentWord, word, handleWord, isGameOver }) => {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  const keyboardButtons = alphabet.split("").map((letter) => {
+    const isGuessed = word.includes(letter);
+
+    const bgColor = isGuessed
+      ? currentWord.includes(letter)
+        ? "bg-green-400"
+        : "bg-red-500"
+      : "bg-yellow-400 hover:bg-yellow-500";
+
+    return (
+      <button
+        key={letter}
+        onClick={() => handleWord(letter)}
+        disabled={isGameOver || isGuessed} // ✅ IMPORTANT LINE
+        className={`w-10 h-10 text-black font-bold rounded-md shadow 
+        ${bgColor} 
+        ${isGameOver ? "opacity-50 cursor-not-allowed" : ""}`}
+      >
+        {letter}
+      </button>
+    );
+  });
 
   return (
-    <div>
-      {alphabets.map((letter) => (
-        <button key={letter} onClick={() => handleGuess(letter)}>
-          {letter}
-        </button>
-      ))}
+    <div className="flex flex-wrap justify-center gap-2 max-w-md mx-auto mt-10">
+      {keyboardButtons}
     </div>
   );
-}
+};
+
 export default Keyboard;
