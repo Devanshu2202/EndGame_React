@@ -1,30 +1,21 @@
-import LanguageChip from "./LanguageChip";
-
-const LanguageChips = ({ wrongWordCount }) => {
-  const languages = [
-    { name: "HTML", color: "bg-orange-500" },
-    { name: "CSS", color: "bg-blue-500" },
-    { name: "JavaScript", color: "bg-yellow-400 text-black" },
-    { name: "React", color: "bg-cyan-400 text-black" },
-    { name: "TypeScript", color: "bg-blue-600" },
-    { name: "Node.js", color: "bg-green-500" },
-    { name: "Python", color: "bg-indigo-500" },
-    { name: "Ruby", color: "bg-red-500" },
-    { name: "Assembly", color: "bg-gray-700" },
-  ];
-
+const LanguageChips = ({ languages, wrongWordCount }) => {
   return (
     <div className="flex flex-wrap justify-center gap-2 max-w-md mx-auto mb-8">
       {languages.map((lang, index) => {
         const isDisabled = index < wrongWordCount;
+        console.log("isDisabled", isDisabled);
 
         return (
-          <LanguageChip
+          <span
             key={lang.name}
-            name={lang.name}
-            color={lang.color}
-            isDisabled={isDisabled}
-          />
+            className={`
+              ${lang.color}
+              text-white text-sm px-3 py-1 rounded-md font-semibold
+              ${isDisabled ? "opacity-30 line-through" : ""}
+            `}
+          >
+            {lang.name}
+          </span>
         );
       })}
     </div>
