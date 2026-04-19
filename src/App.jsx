@@ -1,70 +1,81 @@
 import { useState } from "react";
-import Header from "./components/Header";
-import WordDisplay from "./components/WordDisplay";
-import Keyboard from "./components/Keyboard";
-import LanguageChips from "./components/LanguageChip";
+import Header from "./componenets/Header";
+import Keyboard from "./componenets/Keyboard";
+import LanguageChips from "./componenets/LanguageChips";
+import WordDisplay from "./componenets/WordDisplay";
+import Confetti from "react-confetti";
 
 function App() {
-  const [currentWord, setCurrentWord] = useState("REACT");
-  const [guessedLetters, setGuessedLetters] = useState([]);
+  const [currentWord, setCurrentWord] = useState("PYTHON");
 
-  // Handle letter click
-  const handleGuess = (letter) => {
-    setGuessedLetters((prev) =>
-      prev.includes(letter) ? prev : [...prev, letter],
-    );
-  };
+  console.log("currentWord", currentWord);
+  const [word, setWord] = useState([]);
 
-  // Wrong guesses count
-  const wrongGuesses = guessedLetters.filter(
+  const wrongWordCount = word.filter(
     (letter) => !currentWord.includes(letter),
   ).length;
 
-  const maxWrong = 5;
-
-  // Win condition
-  const isWinner = currentWord
+  const isGameWon = currentWord
     .split("")
-    .every((letter) => guessedLetters.includes(letter));
+    .every((letter) => word.includes(letter));
 
-  // Game over condition
-  const isGameOver = wrongGuesses >= maxWrong || isWinner;
+  console.log("isGameWon", isGameWon);
 
-  // Restart game
-  const restartGame = () => {
-    setGuessedLetters([]);
-    setCurrentWord("REACT"); // later we can randomize this
-  };
+  const isGameLost = wrongWordCount >= 9;
+
+  console.log("isGameLost", isGameLost);
+
+  const isGameOver = isGameWon || isGameLost;
+
+  console.log("isGameOver", isGameOver);
+
+  function handleWord(letter) {
+    setWord((prev) => (prev.includes(letter) ? prev : [...prev, letter]));
+  }
+
+  const languages = [
+    { name: "HTML", color: "bg-orange-500" },
+    { name: "CSS", color: "bg-blue-500" },
+    { name: "JAVASCRIPT", color: "bg-yellow-400 text-black" },
+    { name: "REACT", color: "bg-cyan-400 text-black" },
+    { name: "TYPESCRIPT", color: "bg-blue-600" },
+    { name: "NODE", color: "bg-green-500" },
+    { name: "PYTHON", color: "bg-indigo-500" },
+    { name: "RUBY", color: "bg-red-500" },
+  ];
+
+  function getNewWord() {
+    const random = languages[Math.floor(Math.random() * languages.length)];
+
+    setCurrentWord(random.name); // take name as word
+    setWord([]); // reset guesses
+  }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center">
+    <div className="min-h-screen bg-[#262626] text-white flex flex-col items-center p-8">
+      {isGameWon && <Confetti />}
       <Header />
 
-      <LanguageChips wrongWordCount={wrongGuesses} />
+      <LanguageChips wrongWordCount={wrongWordCount} languages={languages} />
 
-      <WordDisplay currentWord={currentWord} guessedLetters={guessedLetters} />
+      <WordDisplay currentWord={currentWord} word={word} />
 
-      <Keyboard handleGuess={handleGuess} isGameOver={isGameOver} />
+      <Keyboard
+        currentWord={currentWord}
+        word={word}
+        handleWord={handleWord}
+        isGameOver={isGameOver}
+      />
 
-      {/* Wrong guess count */}
-      <p className="mt-4 text-gray-700">
-        Wrong Guesses: {wrongGuesses} / {maxWrong}
-      </p>
+      {isGameWon && <h2 className="text-green-400 mt-4">You Win 🎉</h2>}
+      {isGameLost && <h2 className="text-red-400 mt-4">Game Over 💀</h2>}
 
-      {/* Game messages */}
-      {isGameOver && !isWinner && (
-        <h2 className="mt-4 text-red-500 text-2xl">Game Over 😢</h2>
-      )}
-
-      {isWinner && <h2 className="mt-4 text-green-600 text-2xl">You Win 🎉</h2>}
-
-      {/* Restart Button */}
       {isGameOver && (
         <button
-          onClick={restartGame}
-          className="mt-6 px-4 py-2 bg-black text-white rounded hover:bg-gray-800"
+          onClick={getNewWord}
+          className="mt-4 bg-blue-500 px-4 py-2 rounded"
         >
-          Restart Game
+          New Game
         </button>
       )}
     </div>
