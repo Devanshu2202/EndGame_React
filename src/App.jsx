@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Header from "./componenets/Header";
-import Keyboard from "./componenets/Keyboard";
-import LanguageChips from "./componenets/LanguageChips";
-import WordDisplay from "./componenets/WordDisplay";
+import Header from "./components/Header";
+import Keyboard from "./components/Keyboard";
+import LanguageChips from "./components/LanguageChip";
+import WordDisplay from "./components/WordDisplay";
 import Confetti from "react-confetti";
 
 function App() {

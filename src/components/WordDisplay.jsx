@@ -1,15 +1,16 @@
-function WordDisplay({ currentWord, guessedLetters }) {
+const WordDisplay = ({ currentWord, word }) => {
   return (
-    <div className="flex gap-2 mt-8">
+    <div className="flex gap-2 mb-10">
       {currentWord.split("").map((letter, index) => (
-        <span
+        <div
           key={index}
-          className="w-12 h-12 flex items-center justify-center bg-yellow-400 text-black text-xl font-bold rounded"
+          className="w-12 h-12 border-b-4 border-gray-500 bg-amber-300 flex items-center justify-center font-bold text-xl"
         >
-          {guessedLetters.includes(letter) ? letter : ""}
-        </span>
+          {word.includes(letter) ? letter : ""}
+        </div>
       ))}
     </div>
   );
-}
+};
+
 export default WordDisplay;
