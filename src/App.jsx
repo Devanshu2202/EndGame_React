@@ -7,7 +7,6 @@ import Confetti from "react-confetti";
 
 function App() {
   const [currentWord, setCurrentWord] = useState("PYTHON");
-
   const [word, setWord] = useState([]);
 
   const wrongWordCount = word.filter(
@@ -40,37 +39,66 @@ function App() {
   function getNewWord() {
     const random = languages[Math.floor(Math.random() * languages.length)];
 
-    setCurrentWord(random.name); // take name as word
-    setWord([]); // reset guesses
+    setCurrentWord(random.name);
+    setWord([]);
   }
 
   return (
     <div className="min-h-screen bg-[#262626] text-white flex flex-col items-center p-8">
+      {/* 🎉 Confetti */}
       {isGameWon && <Confetti />}
-      <Header />
 
-      <LanguageChips wrongWordCount={wrongWordCount} languages={languages} />
+      {/* ✅ Center Container */}
+      <div className="w-full max-w-xl flex flex-col items-center">
+        <Header />
 
-      <WordDisplay currentWord={currentWord} word={word} />
+        <LanguageChips wrongWordCount={wrongWordCount} languages={languages} />
 
-      <Keyboard
-        currentWord={currentWord}
-        word={word}
-        handleWord={handleWord}
-        isGameOver={isGameOver}
-      />
+        {/* 🎯 Result Banner */}
+        {isGameOver && (
+          <div
+            className={`mt-6 px-6 py-4 rounded-lg text-center font-semibold text-lg w-full max-w-xl mx-auto
+    ${isGameWon ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}
+          >
+            {isGameWon ? (
+              <>
+                🎉 You win! <br />
+                <span className="text-sm font-normal">Well done!</span>
+              </>
+            ) : (
+              <>
+                💀 Game over! <br />
+                <span className="text-sm font-normal">
+                  You lose! Better start learning Assembly 😢
+                </span>
+              </>
+            )}
+          </div>
+        )}
 
-      {isGameWon && <h2 className="text-green-400 mt-4">You Win 🎉</h2>}
-      {isGameLost && <h2 className="text-red-400 mt-4">Game Over 💀</h2>}
+        <WordDisplay
+          currentWord={currentWord}
+          word={word}
+          isGameLost={isGameLost}
+        />
 
-      {isGameOver && (
-        <button
-          onClick={getNewWord}
-          className="mt-4 bg-blue-500 px-4 py-2 rounded"
-        >
-          New Game
-        </button>
-      )}
+        <Keyboard
+          currentWord={currentWord}
+          word={word}
+          handleWord={handleWord}
+          isGameOver={isGameOver}
+        />
+
+        {/* 🔁 New Game Button */}
+        {isGameOver && (
+          <button
+            onClick={getNewWord}
+            className="mt-6 bg-blue-500 px-6 py-2 rounded-md hover:bg-blue-600 transition"
+          >
+            New Game
+          </button>
+        )}
+      </div>
     </div>
   );
 }

@@ -25,7 +25,7 @@ const Keyboard = ({ currentWord, word, handleWord, isGameOver }) => {
   });
 
   return (
-    <div className="flex flex-wrap justify-center gap-2 max-w-md mx-auto mt-10">
+    <div className="flex flex-wrap justify-center gap-2 w-full max-w-xl mx-auto mt-8">
       {keyboardButtons}
     </div>
   );
